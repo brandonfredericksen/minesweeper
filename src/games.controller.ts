@@ -9,7 +9,7 @@ import { GamesService } from './games.service';
 
 @Controller('games')
 export class GamesController {
-  constructor(private readonly appService: GamesService) {}
+  constructor(private readonly gameService: GamesService) {}
 
   @Get()
   async getAll() {
@@ -19,7 +19,7 @@ export class GamesController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const game = await this.appService.findOneGame(id);
+    const game = await this.gameService.findOneGame(id);
 
     if (!game) {
       throw new NotFoundException(`Game with id "${id}" not found`);
