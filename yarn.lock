@@ -932,12 +932,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:10.4.1":
-  version: 10.4.1
-  resolution: "@nestjs/common@npm:10.4.1"
+"@nestjs/common@npm:10.4.2":
+  version: 10.4.2
+  resolution: "@nestjs/common@npm:10.4.2"
   dependencies:
     iterare: "npm:1.2.1"
-    tslib: "npm:2.6.3"
+    tslib: "npm:2.7.0"
     uid: "npm:2.0.2"
   peerDependencies:
     class-transformer: "*"
@@ -949,19 +949,19 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 10c0/4b624893ad55f9fcf8638eca045d09dd091a8be2cd5061988e3a479178f95b9517aaa7c51ce136801d8b87bfe1494cd198dc0a68630bb8bcba100044915736e7
+  checksum: 10c0/832e8640c9115207e3e41b3ec20a52d429cecf87ce15e261b966bf40e8bdf95c28f48e7f8499ff21ea99fc7c2a7591df1d8e3b3891038f88c001aca37d6959b3
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:10.4.1":
-  version: 10.4.1
-  resolution: "@nestjs/core@npm:10.4.1"
+"@nestjs/core@npm:10.4.2":
+  version: 10.4.2
+  resolution: "@nestjs/core@npm:10.4.2"
   dependencies:
     "@nuxtjs/opencollective": "npm:0.3.2"
     fast-safe-stringify: "npm:2.1.1"
     iterare: "npm:1.2.1"
-    path-to-regexp: "npm:3.2.0"
-    tslib: "npm:2.6.3"
+    path-to-regexp: "npm:3.3.0"
+    tslib: "npm:2.7.0"
     uid: "npm:2.0.2"
   peerDependencies:
     "@nestjs/common": ^10.0.0
@@ -977,7 +977,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 10c0/57be2fc7617041558e90a92ec7c6f1011ed2bab8bfe5c5c02db5f5a03115e5e7347c06be0117767ce7d6c748fbe81ff075fc50190c998d30bbf25fd20e6f4ab8
+  checksum: 10c0/66a13c962fd2ad490c0111439ece98b7498bb2b6fdef48724ca88b64bbaf8c31cd16c016f4ebb489f2d2b5d878db9808a3a72d747541348333b1e30b2013e7a5
   languageName: node
   linkType: hard
 
@@ -4954,8 +4954,8 @@ __metadata:
     "@eslint/eslintrc": "npm:3.1.0"
     "@eslint/js": "npm:9.10.0"
     "@nestjs/cli": "npm:10.4.5"
-    "@nestjs/common": "npm:10.4.1"
-    "@nestjs/core": "npm:10.4.1"
+    "@nestjs/common": "npm:10.4.2"
+    "@nestjs/core": "npm:10.4.2"
     "@nestjs/platform-express": "npm:10.4.1"
     "@nestjs/schematics": "npm:10.1.4"
     "@nestjs/testing": "npm:10.4.1"
@@ -5682,10 +5682,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-to-regexp@npm:3.2.0":
-  version: 3.2.0
-  resolution: "path-to-regexp@npm:3.2.0"
-  checksum: 10c0/2eeb1c698293acf6f89fe5af33b4c20822b3cee3e4e910c43bbee098c8dde34232fc194d5c2bc02df72affada446a181784e24f7a46932af323706be029ed1ba
+"path-to-regexp@npm:3.3.0":
+  version: 3.3.0
+  resolution: "path-to-regexp@npm:3.3.0"
+  checksum: 10c0/ffa0ebe7088d38d435a8d08b0fe6e8c93ceb2a81a65d4dd1d9a538f52e09d5e3474ed5f553cb3b180d894b0caa10698a68737ab599fd1e56b4663d1a64c9f77b
   languageName: node
   linkType: hard
 
@@ -6934,7 +6934,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2":
+"tslib@npm:2.7.0, tslib@npm:^2.1.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2":
   version: 2.7.0
   resolution: "tslib@npm:2.7.0"
   checksum: 10c0/469e1d5bf1af585742128827000711efa61010b699cb040ab1800bcd3ccdd37f63ec30642c9e07c4439c1db6e46345582614275daca3e0f4abae29b0083f04a6
