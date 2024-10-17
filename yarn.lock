@@ -1060,9 +1060,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/schematics@npm:10.2.0":
-  version: 10.2.0
-  resolution: "@nestjs/schematics@npm:10.2.0"
+"@nestjs/schematics@npm:10.2.1":
+  version: 10.2.1
+  resolution: "@nestjs/schematics@npm:10.2.1"
   dependencies:
     "@angular-devkit/core": "npm:17.3.10"
     "@angular-devkit/schematics": "npm:17.3.10"
@@ -1071,7 +1071,7 @@ __metadata:
     pluralize: "npm:8.0.0"
   peerDependencies:
     typescript: ">=4.8.2"
-  checksum: 10c0/4b8fcc388ab32a0ee94ae36dce6bcce0b782ea8cd273e1f1e7886554c7bb2cc7ff63d9fcf0eae86f50901c621165c301b3f5e0c8d26a66ef4037165678b5e33b
+  checksum: 10c0/30d754f2fe9b0331fddc3e8c33c367cb7ffbc92269675e132792d886833aae02281bb26d1529d3ffea95759988a1ebfe2b91ea1ee6a124e3c8443a64b4cec156
   languageName: node
   linkType: hard
 
@@ -5074,7 +5074,7 @@ __metadata:
     "@nestjs/common": "npm:10.4.5"
     "@nestjs/core": "npm:10.4.5"
     "@nestjs/platform-express": "npm:10.4.5"
-    "@nestjs/schematics": "npm:10.2.0"
+    "@nestjs/schematics": "npm:10.2.1"
     "@nestjs/testing": "npm:10.4.5"
     "@nestjs/typeorm": "npm:10.0.2"
     "@types/express": "npm:4.17.21"
