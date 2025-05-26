@@ -1012,9 +1012,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:10.4.17":
-  version: 10.4.17
-  resolution: "@nestjs/common@npm:10.4.17"
+"@nestjs/common@npm:10.4.18":
+  version: 10.4.18
+  resolution: "@nestjs/common@npm:10.4.18"
   dependencies:
     file-type: "npm:20.4.1"
     iterare: "npm:1.2.1"
@@ -1030,13 +1030,13 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 10c0/dc96bb6d5e68e856d2a18853c5c8b8cebfd32f9193d72089bb71191efde5a5272e87d7005fc1a9587d08755286331e233690bcb7937435e3fc9c2069b64b06c9
+  checksum: 10c0/fd585c9ddebbee23785e1acc6deb79cac6b22f26eb95df503170564d1ee613af5509fcef8b7767ef066c8bb8dc839ebbb0957de6e4670e7e8fc5485c6410cb2a
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:10.4.17":
-  version: 10.4.17
-  resolution: "@nestjs/core@npm:10.4.17"
+"@nestjs/core@npm:10.4.18":
+  version: 10.4.18
+  resolution: "@nestjs/core@npm:10.4.18"
   dependencies:
     "@nuxtjs/opencollective": "npm:0.3.2"
     fast-safe-stringify: "npm:2.1.1"
@@ -1058,23 +1058,23 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 10c0/fdc9e5418a3421b1be05d7552e69cc2d226ae4065426c9b0c0769eed1720e35edeb925f92b72ce151ba1ff0ad7be127054dc13fc9d1ded138f3ddeb462dfdadc
+  checksum: 10c0/e8116dbdf7da377cd55192b454a9bbf0a1b8205ac2899c1369e63d4459ce46b64b1701ebab1d9897f526297098db1cb72270e04a913e15c4f6d968c3dd7ca6a6
   languageName: node
   linkType: hard
 
-"@nestjs/platform-express@npm:10.4.17":
-  version: 10.4.17
-  resolution: "@nestjs/platform-express@npm:10.4.17"
+"@nestjs/platform-express@npm:10.4.18":
+  version: 10.4.18
+  resolution: "@nestjs/platform-express@npm:10.4.18"
   dependencies:
     body-parser: "npm:1.20.3"
     cors: "npm:2.8.5"
     express: "npm:4.21.2"
-    multer: "npm:1.4.4-lts.1"
+    multer: "npm:2.0.0"
     tslib: "npm:2.8.1"
   peerDependencies:
     "@nestjs/common": ^10.0.0
     "@nestjs/core": ^10.0.0
-  checksum: 10c0/cfd5c1e6ca0e3b86a7c2fbc12c5dfa274696ad4fd26952492ff8e68cb5708572bb9a82db9c0ab2c79cfa3ef6f39f04e27f5038065044cb65ec1b250d566ac807
+  checksum: 10c0/5707ec38cedf58dbc6008bc52ca4a4af2e35750303b6af0679d4aefa265c4d3a78c3c097b07d23a21ac384a296260d0a9a8c427b643e5ae8da4aced79e7d996a
   languageName: node
   linkType: hard
 
@@ -1108,9 +1108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/testing@npm:10.4.17":
-  version: 10.4.17
-  resolution: "@nestjs/testing@npm:10.4.17"
+"@nestjs/testing@npm:10.4.18":
+  version: 10.4.18
+  resolution: "@nestjs/testing@npm:10.4.18"
   dependencies:
     tslib: "npm:2.8.1"
   peerDependencies:
@@ -1123,7 +1123,7 @@ __metadata:
       optional: true
     "@nestjs/platform-express":
       optional: true
-  checksum: 10c0/6ddf155db8937fcfd003fa1d24f0675c2dd89daad7c702d841cbdbd8fc1fe59f18e2a4e4f875c059c5569c19e94e43ae276a7d160355798a762ccbf0e93c18ce
+  checksum: 10c0/fef6f4cf31ffafa08023eed842a02c746eabdeaff10d7f58b429b79fb024801652780a3feb71f72cd588bf409087f66901888469946dbe0e83f68879a53e4ed7
   languageName: node
   linkType: hard
 
@@ -5183,11 +5183,11 @@ __metadata:
     "@eslint/eslintrc": "npm:3.3.1"
     "@eslint/js": "npm:9.23.0"
     "@nestjs/cli": "npm:10.4.9"
-    "@nestjs/common": "npm:10.4.17"
-    "@nestjs/core": "npm:10.4.17"
-    "@nestjs/platform-express": "npm:10.4.17"
+    "@nestjs/common": "npm:10.4.18"
+    "@nestjs/core": "npm:10.4.18"
+    "@nestjs/platform-express": "npm:10.4.18"
     "@nestjs/schematics": "npm:10.2.3"
-    "@nestjs/testing": "npm:10.4.17"
+    "@nestjs/testing": "npm:10.4.18"
     "@nestjs/typeorm": "npm:10.0.2"
     "@types/express": "npm:4.17.22"
     "@types/jest": "npm:29.5.14"
@@ -5525,9 +5525,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multer@npm:1.4.4-lts.1":
-  version: 1.4.4-lts.1
-  resolution: "multer@npm:1.4.4-lts.1"
+"multer@npm:2.0.0":
+  version: 2.0.0
+  resolution: "multer@npm:2.0.0"
   dependencies:
     append-field: "npm:^1.0.0"
     busboy: "npm:^1.0.0"
@@ -5536,7 +5536,7 @@ __metadata:
     object-assign: "npm:^4.1.1"
     type-is: "npm:^1.6.4"
     xtend: "npm:^4.0.0"
-  checksum: 10c0/63277d3483869f424274ef8ce6ab7ff4ce9d2c1cc69e707fc8b5d9b2b348ae6f742809e0b357a591dea885d147594bcd06528d3d6bbe32046115d4a7e126b954
+  checksum: 10c0/b1bb5faead3193f2bad5dc1dd3a89c195b3b95a178253d81636efee07538df761515b59fcd508037b8c0472a087f33d13002ed76e167a00ef7d32694e3038138
   languageName: node
   linkType: hard
 
