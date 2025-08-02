@@ -24,17 +24,22 @@ export const createGameSchema = yup
   .test('difficulty-or-custom', 'Invalid game parameters', function (value) {
     const { difficulty, rows, columns, bombDensity } = value;
 
-    // Case 1: Difficulty specified alone (valid)
+    // Case 1: Nothing specified (valid - will use default difficulty)
+    if (!difficulty && !rows && !columns && bombDensity === undefined) {
+      return true;
+    }
+
+    // Case 2: Difficulty specified alone (valid)
     if (difficulty && !rows && !columns && bombDensity === undefined) {
       return true;
     }
 
-    // Case 2: Custom parameters without difficulty (valid)
+    // Case 3: Custom parameters without difficulty (valid)
     if (!difficulty && rows && columns) {
       return true;
     }
 
-    // Case 3: Difficulty with any other parameters (invalid)
+    // Case 4: Difficulty with any other parameters (invalid)
     if (difficulty && (rows || columns || bombDensity !== undefined)) {
       return this.createError({
         message:
@@ -42,21 +47,13 @@ export const createGameSchema = yup
       });
     }
 
-    // Case 4: Incomplete custom parameters
+    // Case 5: Incomplete custom parameters
     if (!difficulty && (rows || columns || bombDensity !== undefined)) {
       if (!rows || !columns) {
         return this.createError({
           message: 'Must specify both rows and columns for custom game',
         });
       }
-    }
-
-    // Case 5: Nothing specified
-    if (!difficulty && !rows && !columns) {
-      return this.createError({
-        message:
-          'Must specify either difficulty or custom parameters (rows, columns)',
-      });
     }
 
     return true;

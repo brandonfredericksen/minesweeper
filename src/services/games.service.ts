@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 import { Game, GameCell, GameStatus, GameDifficulty } from '../entities';
 import { CreateGameDto, GetGamesQueryDto } from '../dto';
 import { CacheService } from './cache.service';
@@ -20,6 +21,7 @@ export class GamesService {
     private readonly gameCellsRepository: Repository<GameCell>,
     private readonly cacheService: CacheService,
     private readonly rateLimitService: RateLimitService,
+    private readonly configService: ConfigService,
   ) {}
 
   async createGame(
@@ -31,7 +33,27 @@ export class GamesService {
     let bombDensity: number;
     let difficulty: GameDifficulty;
 
-    if (createGameDto.difficulty) {
+    // Case 1: No parameters provided - use default difficulty
+    if (
+      !createGameDto.difficulty &&
+      !createGameDto.rows &&
+      !createGameDto.columns
+    ) {
+      const defaultDifficulty = this.configService.get<string>(
+        'app.game.defaultDifficulty',
+        'NORMAL',
+      ) as GameDifficulty;
+      const config = getDifficultyConfig(defaultDifficulty);
+      if (!config) {
+        throw new Error('Invalid default difficulty configuration');
+      }
+      rows = config.rows;
+      columns = config.columns;
+      bombDensity = config.bombDensity;
+      difficulty = defaultDifficulty;
+    }
+    // Case 2: Difficulty specified
+    else if (createGameDto.difficulty) {
       const config = getDifficultyConfig(createGameDto.difficulty);
       if (!config) {
         throw new Error('Invalid difficulty configuration');
@@ -40,7 +62,9 @@ export class GamesService {
       columns = config.columns;
       bombDensity = config.bombDensity;
       difficulty = createGameDto.difficulty;
-    } else {
+    }
+    // Case 3: Custom parameters provided
+    else {
       rows = createGameDto.rows!;
       columns = createGameDto.columns!;
       bombDensity = createGameDto.bombDensity || 0.15; // Default to NORMAL density
