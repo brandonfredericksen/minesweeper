@@ -3,6 +3,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
 import { generateGamesListCacheKey, generateGameCacheKey } from '../utils';
+import { Game } from '../entities';
 
 @Injectable()
 export class CacheService {
@@ -28,7 +29,9 @@ export class CacheService {
     page: number,
     status?: string,
     difficulty?: string,
-  ): Promise<any> {
+  ): Promise<
+    { games: Game[]; total: number; page: number; limit: number } | undefined
+  > {
     const key = generateGamesListCacheKey(userId, page, status, difficulty);
     return this.get(key);
   }
@@ -36,7 +39,7 @@ export class CacheService {
   async setGamesList(
     userId: string,
     page: number,
-    data: any,
+    data: { games: Game[]; total: number; page: number; limit: number },
     status?: string,
     difficulty?: string,
   ): Promise<void> {
@@ -46,12 +49,12 @@ export class CacheService {
     await this.set(key, data, ttl);
   }
 
-  async getSingleGame(gameId: string): Promise<any> {
+  async getSingleGame(gameId: string): Promise<Game | undefined> {
     const key = generateGameCacheKey(gameId);
     return this.get(key);
   }
 
-  async setSingleGame(gameId: string, data: any): Promise<void> {
+  async setSingleGame(gameId: string, data: Game): Promise<void> {
     const key = generateGameCacheKey(gameId);
     const ttl =
       this.configService.get<number>('app.cache.ttl.singleGame', 3600) * 1000;

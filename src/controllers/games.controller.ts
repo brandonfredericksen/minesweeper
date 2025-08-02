@@ -21,7 +21,10 @@ export class GamesController {
   constructor(private readonly gamesService: GamesService) {}
 
   @Get()
-  async getAll(@Query() query: any, @Req() request: AuthenticatedRequest) {
+  async getAll(
+    @Query() query: Record<string, unknown>,
+    @Req() request: AuthenticatedRequest,
+  ) {
     const userId = request.user.id;
 
     const validatedQuery = await validateWithYup(getGamesQuerySchema, query);
