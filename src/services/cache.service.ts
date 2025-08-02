@@ -3,7 +3,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
 import { generateGamesListCacheKey, generateGameCacheKey } from '../utils';
-import { Game } from '../entities';
+import { Game, GameStatus, GameDifficulty } from '../entities';
 
 @Injectable()
 export class CacheService {
@@ -33,7 +33,12 @@ export class CacheService {
     { games: Game[]; total: number; page: number; limit: number } | undefined
   > {
     const key = generateGamesListCacheKey(userId, page, status, difficulty);
-    return this.get<{ games: Game[]; total: number; page: number; limit: number }>(key);
+    return this.get<{
+      games: Game[];
+      total: number;
+      page: number;
+      limit: number;
+    }>(key);
   }
 
   async setGamesList(
@@ -62,23 +67,31 @@ export class CacheService {
   }
 
   async invalidateUserGamesCache(userId: string): Promise<void> {
-    // Note: In a real implementation with Redis, we would use SCAN + DEL
-    // For the in-memory cache, we'll need to implement a different approach
-    // This is a simplified version that would need enhancement for production
-    const keys = await this.getAllKeys();
-    const userKeys = keys.filter((key) =>
-      key.startsWith(`games:user:${userId}:`),
-    );
+    // Since in-memory cache doesn't provide key enumeration,
+    // we'll invalidate specific cache patterns we know exist
+    const statusValues = ['all', ...Object.values(GameStatus)];
+    const difficultyValues = ['all', ...Object.values(GameDifficulty)];
+    const maxPages = 10; // Reasonable assumption for max cached pages
 
-    for (const key of userKeys) {
-      await this.del(key);
+    const keysToDelete: string[] = [];
+
+    // Generate all possible cache key combinations
+    for (let page = 1; page <= maxPages; page++) {
+      for (const status of statusValues) {
+        for (const difficulty of difficultyValues) {
+          const key = generateGamesListCacheKey(
+            userId,
+            page,
+            status === 'all' ? undefined : status,
+            difficulty === 'all' ? undefined : difficulty,
+          );
+          keysToDelete.push(key);
+        }
+      }
     }
-  }
 
-  private async getAllKeys(): Promise<string[]> {
-    // This is a simplified implementation
-    // In production with Redis, you would use KEYS or SCAN commands
-    // For in-memory cache, this would need to be implemented differently
-    return [];
+    // Delete all possible cache entries for this user
+    const deletePromises = keysToDelete.map((key) => this.del(key));
+    await Promise.all(deletePromises);
   }
 }
