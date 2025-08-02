@@ -10,8 +10,8 @@ import { Game, GameCell } from './entities';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '0.0.0.0',
-      port: 5432,
+      host: '127.0.0.1',
+      port: 5433,
       username: 'local',
       password: 'local',
       database: 'local',

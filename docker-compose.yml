@@ -6,10 +6,11 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_USER: local
       POSTGRES_PASSWORD: local
       POSTGRES_DB: local
+      POSTGRES_HOST_AUTH_METHOD: trust
 volumes:
   db_data:
