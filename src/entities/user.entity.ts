@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Game } from './game.entity';
-import { GameLog } from './game-log.entity';
+import { Log } from './log.entity';
 
 @Entity({ name: 'users' })
 @Index(['username'], { unique: true })
@@ -26,8 +26,8 @@ export class User {
   @OneToMany(() => Game, (game) => game.user)
   games: Game[];
 
-  @OneToMany(() => GameLog, (log) => log.user)
-  logs: GameLog[];
+  @OneToMany(() => Log, (log) => log.user)
+  logs: Log[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

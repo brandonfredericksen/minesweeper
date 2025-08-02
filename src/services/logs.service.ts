@@ -1,35 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { GameLog, LogAction } from '../entities';
+import { Log } from '../entities';
 
 @Injectable()
 export class LogsService {
   constructor(
-    @InjectRepository(GameLog)
-    private readonly logsRepository: Repository<GameLog>,
+    @InjectRepository(Log)
+    private readonly logsRepository: Repository<Log>,
   ) {}
 
-  async logAction(
-    userId: string,
-    action: LogAction,
+  async logRequest(
+    method: string,
+    endpoint: string,
+    statusCode: number,
+    userId?: string,
     ipAddress?: string,
     userAgent?: string,
-    gameId?: string,
+    responseTime?: number,
     details?: string,
-  ): Promise<GameLog> {
+  ): Promise<Log> {
     const log = this.logsRepository.create({
+      method,
+      endpoint,
+      statusCode,
       userId,
-      action,
       ipAddress,
       userAgent,
-      gameId,
+      responseTime,
       details,
     });
     return this.logsRepository.save(log);
   }
 
-  async getLogsByUser(userId: string, limit: number = 50): Promise<GameLog[]> {
+  async getLogsByUser(userId: string, limit: number = 50): Promise<Log[]> {
     return this.logsRepository.find({
       where: { userId },
       order: { createdAt: 'DESC' },
@@ -37,12 +41,23 @@ export class LogsService {
     });
   }
 
-  async getLogsByAction(
-    action: LogAction,
+  async getLogsByEndpoint(
+    endpoint: string,
     limit: number = 100,
-  ): Promise<GameLog[]> {
+  ): Promise<Log[]> {
     return this.logsRepository.find({
-      where: { action },
+      where: { endpoint },
+      order: { createdAt: 'DESC' },
+      take: limit,
+    });
+  }
+
+  async getLogsByStatusCode(
+    statusCode: number,
+    limit: number = 100,
+  ): Promise<Log[]> {
+    return this.logsRepository.find({
+      where: { statusCode },
       order: { createdAt: 'DESC' },
       take: limit,
     });

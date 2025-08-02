@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { join } from 'node:path';
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 import appConfig from './config/app.config';
-import { Game, GameCell, User, GameLog } from './entities';
+import { Game, GameCell, User, Log } from './entities';
 
 // Controllers
 import { GamesController } from './controllers/games.controller';
@@ -25,6 +25,9 @@ import { RateLimitGuard } from './guards/rate-limit.guard';
 
 // Seeding
 import { UserSeedService } from './database/seeds/user.seed';
+
+// Middleware
+import { LoggingMiddleware } from './middleware/logging.middleware';
 
 @Module({
   imports: [
@@ -46,7 +49,7 @@ import { UserSeedService } from './database/seeds/user.seed';
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Game, GameCell, User, GameLog]),
+    TypeOrmModule.forFeature([Game, GameCell, User, Log]),
     CacheModule.register({
       isGlobal: true,
     }),
@@ -72,4 +75,8 @@ import { UserSeedService } from './database/seeds/user.seed';
     UserSeedService,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggingMiddleware).forRoutes('*');
+  }
+}
