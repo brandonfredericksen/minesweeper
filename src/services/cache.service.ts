@@ -33,7 +33,7 @@ export class CacheService {
     { games: Game[]; total: number; page: number; limit: number } | undefined
   > {
     const key = generateGamesListCacheKey(userId, page, status, difficulty);
-    return this.get(key);
+    return this.get<{ games: Game[]; total: number; page: number; limit: number }>(key);
   }
 
   async setGamesList(
@@ -51,7 +51,7 @@ export class CacheService {
 
   async getSingleGame(gameId: string): Promise<Game | undefined> {
     const key = generateGameCacheKey(gameId);
-    return this.get(key);
+    return this.get<Game>(key);
   }
 
   async setSingleGame(gameId: string, data: Game): Promise<void> {
