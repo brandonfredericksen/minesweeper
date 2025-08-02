@@ -11,8 +11,8 @@ Every API call needs a bearer token. I added rate limiting because without it, s
 ### Caching
 I added caching because database queries can get expensive, especially for the games list endpoint with pagination and filtering. The cache automatically invalidates when new games are created so data stays fresh.
 
-### Audit Logging
-I log all game creation attempts (successful and failed) plus rate limit violations. This helps with debugging and monitoring usage patterns.
+### Logging
+I log all game creation attempts (successful and failed) plus rate limit violations. This helps with debugging and monitoring usage.
 
 ## API Endpoints
 
@@ -24,9 +24,12 @@ All endpoints require a bearer token: `Authorization: Bearer <api_key>`
   - `GET /games?limit=10&page=2` - (Optional) Pagination
 - `GET /games/:id` - Get specific game with all cells
 - `POST /games` - Create new game (rate limited)
-  - Body: `{ "rows": <number>, "columns": <number>, "difficulty": "easy|normal|hard" }`
-  - All options are indeed optional with defaults in the .env file. 
-  - If a user specifies each of row, column AND difficulty then I return an error if the difficulty does not match the row/column size.
+  - **Options**. You can specify either difficulty which has preset values or specify any number of custom parameter(s):
+    - `difficulty` (easy, normal, hard)
+    - `rows` (number of rows, default 10)
+    - `columns` (number of columns, default 10)
+    - `bombDensity` (number between 0.01 and 0.8, default 0.15)
+
 
 ## Database Setup
 

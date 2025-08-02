@@ -21,28 +21,46 @@ export const createGameSchema = yup
       .min(0.01, 'Minimum bomb density is 0.01')
       .max(0.8, 'Maximum bomb density is 0.8'),
   })
-  .test(
-    'difficulty-or-custom',
-    'Either provide difficulty OR custom parameters (rows, columns, bombDensity)',
-    function (value) {
-      const { difficulty, rows, columns, bombDensity } = value;
+  .test('difficulty-or-custom', 'Invalid game parameters', function (value) {
+    const { difficulty, rows, columns, bombDensity } = value;
 
-      if (difficulty && (rows || columns || bombDensity)) {
-        return this.createError({
-          message: 'Cannot specify both difficulty and custom parameters',
-        });
-      }
-
-      if (!difficulty && (!rows || !columns || bombDensity === undefined)) {
-        return this.createError({
-          message:
-            'Must specify either difficulty or all custom parameters (rows, columns, bombDensity)',
-        });
-      }
-
+    // Case 1: Difficulty specified alone (valid)
+    if (difficulty && !rows && !columns && bombDensity === undefined) {
       return true;
-    },
-  );
+    }
+
+    // Case 2: Custom parameters without difficulty (valid)
+    if (!difficulty && rows && columns) {
+      return true;
+    }
+
+    // Case 3: Difficulty with any other parameters (invalid)
+    if (difficulty && (rows || columns || bombDensity !== undefined)) {
+      return this.createError({
+        message:
+          'Cannot specify difficulty with custom parameters. Use difficulty alone or specify rows/columns for custom game.',
+      });
+    }
+
+    // Case 4: Incomplete custom parameters
+    if (!difficulty && (rows || columns || bombDensity !== undefined)) {
+      if (!rows || !columns) {
+        return this.createError({
+          message: 'Must specify both rows and columns for custom game',
+        });
+      }
+    }
+
+    // Case 5: Nothing specified
+    if (!difficulty && !rows && !columns) {
+      return this.createError({
+        message:
+          'Must specify either difficulty or custom parameters (rows, columns)',
+      });
+    }
+
+    return true;
+  });
 
 export interface CreateGameDto {
   difficulty?: GameDifficulty;

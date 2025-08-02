@@ -43,7 +43,7 @@ export class GamesService {
     } else {
       rows = createGameDto.rows!;
       columns = createGameDto.columns!;
-      bombDensity = createGameDto.bombDensity!;
+      bombDensity = createGameDto.bombDensity || 0.15; // Default to NORMAL density
       difficulty = detectDifficulty(rows, columns, bombDensity);
     }
 
