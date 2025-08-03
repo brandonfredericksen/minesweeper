@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { ConfigService } from '@nestjs/config';
 import { CacheService } from './cache.service';
-import { GameStatus, GameDifficulty, Game } from '../entities';
+import { Game } from '../entities';
 
 describe('CacheService', () => {
   let service: CacheService;
@@ -67,7 +67,9 @@ describe('CacheService', () => {
       mockCacheManager.del.mockRejectedValue(new Error('Cache error'));
 
       // Should not throw even if cache deletion fails
-      await expect(service.invalidateUserGamesCache(userId)).rejects.toThrow('Cache error');
+      await expect(service.invalidateUserGamesCache(userId)).rejects.toThrow(
+        'Cache error',
+      );
     });
   });
 

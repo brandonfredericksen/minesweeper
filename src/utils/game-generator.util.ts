@@ -82,29 +82,36 @@ function generateRandomMinePositions(
 }
 
 function calculateNeighboringBombs(
-  x: number,
-  y: number,
-  rows: number,
-  columns: number,
-  cells: CellData[],
+  currentCellX: number,
+  currentCellY: number,
+  boardRows: number,
+  boardColumns: number,
+  gameCells: CellData[],
 ): number {
-  let count = 0;
+  let neighboringBombCount = 0;
 
-  for (let dy = -1; dy <= 1; dy++) {
-    for (let dx = -1; dx <= 1; dx++) {
-      if (dx === 0 && dy === 0) continue;
+  // Check all 8 surrounding cells (3x3 grid minus the center cell)
+  for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+    for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
+      // Skip the current cell itself (center of the 3x3 grid)
+      if (columnOffset === 0 && rowOffset === 0) continue;
 
-      const newX = x + dx;
-      const newY = y + dy;
+      const neighborX = currentCellX + columnOffset;
+      const neighborY = currentCellY + rowOffset;
 
-      if (newX >= 0 && newX < columns && newY >= 0 && newY < rows) {
-        const cellIndex = newY * columns + newX;
-        if (cells[cellIndex].isMine) {
-          count++;
+      // Check if the neighbor coordinates are within board bounds
+      const isWithinHorizontalBounds =
+        neighborX >= 0 && neighborX < boardColumns;
+      const isWithinVerticalBounds = neighborY >= 0 && neighborY < boardRows;
+
+      if (isWithinHorizontalBounds && isWithinVerticalBounds) {
+        const neighborCellIndex = neighborY * boardColumns + neighborX;
+        if (gameCells[neighborCellIndex].isMine) {
+          neighboringBombCount++;
         }
       }
     }
   }
 
-  return count;
+  return neighboringBombCount;
 }
