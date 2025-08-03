@@ -191,6 +191,7 @@ export class GamesService {
     );
 
     if (cached) {
+      console.info(`Cache used for games list for user ${userId}`);
       return cached;
     }
 
@@ -239,6 +240,7 @@ export class GamesService {
   async findOneGame(gameId: string, userId?: string): Promise<Game | null> {
     const cached = await this.cacheService.getSingleGame(gameId);
     if (cached) {
+      console.info(`Cache used for game ${gameId}`);
       return cached;
     }
 
