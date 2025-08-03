@@ -35,7 +35,8 @@ export const createGameSchema = yup
     }
 
     // Case 3: Custom parameters without difficulty (valid)
-    if (!difficulty && rows && columns) {
+    // Now allows specifying only one dimension (defaults to square)
+    if (!difficulty && (rows || columns)) {
       return true;
     }
 
@@ -45,15 +46,6 @@ export const createGameSchema = yup
         message:
           'Cannot specify difficulty with custom parameters. Use difficulty alone or specify rows/columns for custom game.',
       });
-    }
-
-    // Case 5: Incomplete custom parameters
-    if (!difficulty && (rows || columns || bombDensity !== undefined)) {
-      if (!rows || !columns) {
-        return this.createError({
-          message: 'Must specify both rows and columns for custom game',
-        });
-      }
     }
 
     return true;

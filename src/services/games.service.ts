@@ -24,52 +24,107 @@ export class GamesService {
     private readonly configService: ConfigService,
   ) {}
 
+  private determineGameConfiguration(createGameDto: CreateGameDto): {
+    rows: number;
+    columns: number;
+    bombDensity: number;
+    difficulty: GameDifficulty;
+  } {
+    const hasNoDifficulty = !createGameDto.difficulty;
+    const hasNoCustomParams = !createGameDto.rows && !createGameDto.columns;
+
+    // Function mapping: determine which configuration method to use based on predicates
+    const configurationStrategies = [
+      {
+        predicate: () => hasNoDifficulty && hasNoCustomParams,
+        strategy: () => this.getDefaultDifficultyConfig(),
+      },
+      {
+        predicate: () => Boolean(createGameDto.difficulty),
+        strategy: () =>
+          this.getDifficultyBasedConfig(createGameDto.difficulty!),
+      },
+      {
+        predicate: () => true, // fallback
+        strategy: () => this.getCustomConfig(createGameDto),
+      },
+    ];
+
+    const selectedStrategy = configurationStrategies.find(({ predicate }) =>
+      predicate(),
+    );
+    return selectedStrategy!.strategy();
+  }
+
+  private getDefaultDifficultyConfig(): {
+    rows: number;
+    columns: number;
+    bombDensity: number;
+    difficulty: GameDifficulty;
+  } {
+    const defaultDifficulty = this.configService.get<string>(
+      'app.game.defaultDifficulty',
+      'NORMAL',
+    ) as GameDifficulty;
+
+    const config = getDifficultyConfig(defaultDifficulty);
+
+    return config
+      ? {
+          rows: config.rows,
+          columns: config.columns,
+          bombDensity: config.bombDensity,
+          difficulty: defaultDifficulty,
+        }
+      : (() => {
+          throw new Error('Invalid default difficulty configuration');
+        })();
+  }
+
+  private getDifficultyBasedConfig(gameDifficulty: GameDifficulty): {
+    rows: number;
+    columns: number;
+    bombDensity: number;
+    difficulty: GameDifficulty;
+  } {
+    const config = getDifficultyConfig(gameDifficulty);
+
+    return config
+      ? {
+          rows: config.rows,
+          columns: config.columns,
+          bombDensity: config.bombDensity,
+          difficulty: gameDifficulty,
+        }
+      : (() => {
+          throw new Error('Invalid difficulty configuration');
+        })();
+  }
+
+  private getCustomConfig(createGameDto: CreateGameDto): {
+    rows: number;
+    columns: number;
+    bombDensity: number;
+    difficulty: GameDifficulty;
+  } {
+    // Default to square grid when only one dimension is specified
+    const specifiedRows = createGameDto.rows;
+    const specifiedColumns = createGameDto.columns;
+
+    const rows = specifiedRows || specifiedColumns!;
+    const columns = specifiedColumns || specifiedRows!;
+    const bombDensity = createGameDto.bombDensity || 0.15;
+    const difficulty = detectDifficulty(rows, columns, bombDensity);
+
+    return { rows, columns, bombDensity, difficulty };
+  }
+
   async createGame(
     userId: string,
     createGameDto: CreateGameDto,
   ): Promise<Game> {
-    let rows: number;
-    let columns: number;
-    let bombDensity: number;
-    let difficulty: GameDifficulty;
-
-    // Case 1: No parameters provided - use default difficulty
-    if (
-      !createGameDto.difficulty &&
-      !createGameDto.rows &&
-      !createGameDto.columns
-    ) {
-      const defaultDifficulty = this.configService.get<string>(
-        'app.game.defaultDifficulty',
-        'NORMAL',
-      ) as GameDifficulty;
-      const config = getDifficultyConfig(defaultDifficulty);
-      if (!config) {
-        throw new Error('Invalid default difficulty configuration');
-      }
-      rows = config.rows;
-      columns = config.columns;
-      bombDensity = config.bombDensity;
-      difficulty = defaultDifficulty;
-    }
-    // Case 2: Difficulty specified
-    else if (createGameDto.difficulty) {
-      const config = getDifficultyConfig(createGameDto.difficulty);
-      if (!config) {
-        throw new Error('Invalid difficulty configuration');
-      }
-      rows = config.rows;
-      columns = config.columns;
-      bombDensity = config.bombDensity;
-      difficulty = createGameDto.difficulty;
-    }
-    // Case 3: Custom parameters provided
-    else {
-      rows = createGameDto.rows!;
-      columns = createGameDto.columns!;
-      bombDensity = createGameDto.bombDensity || 0.15; // Default to NORMAL density
-      difficulty = detectDifficulty(rows, columns, bombDensity);
-    }
+    const gameConfig = this.determineGameConfiguration(createGameDto);
+    const { rows, columns, bombDensity, difficulty } = gameConfig;
 
     const gameBoard = generateGameBoard(rows, columns, bombDensity);
 
